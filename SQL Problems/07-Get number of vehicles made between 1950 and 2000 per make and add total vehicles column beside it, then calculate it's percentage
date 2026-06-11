@@ -1,0 +1,7 @@
+select R.Make,R.NumberOfVehicles,R.TotalVehicals , Cast(R.NumberOfVehicles as float) / Cast(R.TotalVehicals as float) as Percentage from 
+(select Makes.Make , Count(*) as NumberOfVehicles , (select count(*) from VehicleDetails where VehicleDetails.Year between 1950 and 2000) as TotalVehicals
+from VehicleDetails 
+inner join Makes on VehicleDetails.MakeID = Makes.MakeID
+where VehicleDetails.Year between 1950 and 2000
+group by Makes.Make) R
+order by NumberOfVehicles desc
